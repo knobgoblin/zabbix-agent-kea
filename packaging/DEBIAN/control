@@ -1,4 +1,4 @@
-Package: zabbix-agent-keay
+Package: zabbix-agent-kea
 Version: 0.1
 Section: utils
 Priority: optional
