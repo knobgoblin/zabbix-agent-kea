@@ -1,0 +1,8 @@
+Package: zabbix-agent-keay
+Version: 0.1
+Section: utils
+Priority: optional
+Architecture: all
+Depends: zabbix-agent2
+Maintainer: Jonathan Elliott <jonathan@only1klaus.com>
+Description: Simple helper for allowing a Zabbix agent to monitor the Kea DHCP server

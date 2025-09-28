@@ -1,0 +1,7 @@
+#!/bin/bash
+
+extra_lines=$(cat<<EOF
+
+UserParameter=kea.active_leases,/usr/local/bin/kea_stats.py active_leases
+# and so on
+EOF)

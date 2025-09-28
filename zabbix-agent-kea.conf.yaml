@@ -1,0 +1,21 @@
+kea-server:
+  host: 127.0.0.1
+  port: '8000'
+  user: kea-api
+  password:
+    type: file
+
+commands:
+  status: |
+    {
+      "command": "status-get",
+      "arguments": {}
+    }
+  allstats: |
+    {
+      "command": "statistic-get-all",
+      "arguments": {},
+      "service": [
+        "dhcp4"
+      ]
+    }
