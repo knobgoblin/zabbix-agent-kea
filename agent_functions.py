@@ -22,7 +22,8 @@ def verify_config_and_get_password(config):
   if get_config_key(config, 'kea-server:password:type') is not None:
     if config['kea-server']['password']['type'] == 'file':
       with open(config['kea-server']['password']['file'], 'r') as fh:
-        password = fh.readlines[0].strip()
+        pwlines = fh.readlines()
+        password = pwlines[0].strip()
   elif get_config_key(config, 'kea-server:password') is not None:
     password = config['kea-server']['password']
   else:

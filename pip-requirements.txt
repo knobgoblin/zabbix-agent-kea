@@ -1,3 +1,4 @@
 pytest
 PyYAML
 termcolor
+coverage

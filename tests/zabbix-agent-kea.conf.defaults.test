@@ -1,0 +1,36 @@
+kea-server:
+  user: _kea
+  password:
+    type: file
+    file: password.txt
+
+commands:
+  status: |
+    {
+      "command": "status-get",
+      "arguments": {}
+    }
+  allstats: |
+    {
+      "command": "statistic-get-all",
+      "arguments": {},
+      "service": [
+        "dhcp4"
+      ]
+    }
+  dhcp4-status: |
+    {
+      "command": "status-get",
+      "arguments": {},
+      "service": [
+        "dhcp4"
+      ]
+    }
+  dhcp6-status: |
+    {
+      "command": "status-get",
+      "arguments": {},
+      "service": [
+        "dhcp6"
+      ]
+    }
