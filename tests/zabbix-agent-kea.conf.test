@@ -1,6 +1,7 @@
 kea-server:
   host: 127.0.0.1
   port: '8000'
+  user: _kea
   password: my secret password
 
 commands:
@@ -15,5 +16,21 @@ commands:
       "arguments": {},
       "service": [
         "dhcp4"
+      ]
+    }
+  dhcp4-status: |
+    {
+      "command": "status-get",
+      "arguments": {},
+      "service": [
+        "dhcp4"
+      ]
+    }
+  dhcp6-status: |
+    {
+      "command": "status-get",
+      "arguments": {},
+      "service": [
+        "dhcp6"
       ]
     }

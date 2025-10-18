@@ -1,16 +1,11 @@
 #!/usr/bin/env python
 
-import yaml
-from termcolor import colored as coloured
+import sys
+sys.path.append('..')
 
-def nested_get(d, keylist, default=None):
-    keys = keylist.split(':')
-    for key in keys:
-        if isinstance(d, dict) and key in d:
-            d = d[key]
-        else:
-            return default
-    return d
+import yaml
+import agent_functions
+from termcolor import colored as coloured
 
 with open('zabbix-agent-kea.conf.test', 'r') as fh:
   config = yaml.safe_load(fh)
@@ -27,13 +22,17 @@ print(config_text)
 print()
 
 def test_no_password_type():
-  password_type = nested_get(config, 'kea-server:password:type')
+  password_type = agent_functions.get_config_key(config, 'kea-server:password:type')
   assert password_type is None
 
 def test_no_config():
-  no_key = nested_get(config, 'fred')
+  no_key = agent_functions.get_config_key(config, 'fred')
   assert no_key is None
 
 def test_password():
-  server_password = nested_get(config, 'kea-server:password')
+  server_password = agent_functions.get_config_key(config, 'kea-server:password')
   assert server_password == 'my secret password'
+
+def test_standard_parse():
+  password = agent_functions.verify_config_and_get_password(config)
+  assert password == 'my secret password'
