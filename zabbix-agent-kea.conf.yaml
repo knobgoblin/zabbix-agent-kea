@@ -6,10 +6,26 @@ kea-server:
     type: file
 
 commands:
-  status: |
+  controller-status: |
     {
       "command": "status-get",
       "arguments": {}
+    }
+  dhcp4-status: |
+    {
+      "command": "status-get",
+      "arguments": {},
+      "service": [
+        "dhcp4"
+      ]
+    }
+  dhcp6-status: |
+    {
+      "command": "status-get",
+      "arguments": {},
+      "service": [
+        "dhcp6"
+      ]
     }
   allstats: |
     {
