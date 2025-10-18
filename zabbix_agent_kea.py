@@ -19,7 +19,7 @@ parser.add_argument(
 parser.add_argument(
   "command",
   nargs="?",
-  default=None,
+  default='no-command',
   help="Meta-command for the agent to run"
 )
 args = parser.parse_args()
