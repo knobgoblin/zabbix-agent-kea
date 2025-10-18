@@ -48,11 +48,11 @@ def exec_check(config, password, command_name):
     try:
       payload = json.loads(config['commands'][command_name])
     except Exception as e:
-      raise RuntimeError(f'Configuration error - issue with command "{command_name}": {e}')
+      raise RuntimeError(f'Configuration error - issue with command {command_name!r}: {e}')
     response = requests.post(url, json=payload, auth=HTTPBasicAuth(user, password), timeout=3)
     if response.status_code == 200:
       return response.json()
     else:
       raise RuntimeError(f'Agent request error - Kea API returned response code {response.status_code}')
   else:
-    raise RuntimeError(f'Command "{command_name}" is not valid')
+    raise RuntimeError(f'Command {command_name!r} is not valid')
