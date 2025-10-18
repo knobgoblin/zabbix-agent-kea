@@ -41,3 +41,5 @@ except Exception as e:
 
 password = agent_functions.verify_config_and_get_password(config)
 response = agent_functions.exec_check(config, password, args.command)
+
+print(response)
