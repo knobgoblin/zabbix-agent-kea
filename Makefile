@@ -30,7 +30,7 @@ package:
 	@${CURDIR}/package.sh
 
 test:
-	@python3 tests/run_tests.py
+	@cd tests && ./run_tests.sh
 
 .PHONY: package test usage init_virtualenv use_virtualenv clean
 .DEFAULT_GOAL := usage

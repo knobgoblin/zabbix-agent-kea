@@ -1,13 +1,10 @@
 #!/usr/bin/env python
 
-import requests
-import json
 import sys
 import yaml
 import argparse
 import os
 import agent_functions
-from requests.auth import HTTPBasicAuth
 
 parser = argparse.ArgumentParser(description="Zabbix agent for kea")
 

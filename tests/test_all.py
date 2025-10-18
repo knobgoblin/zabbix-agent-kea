@@ -4,6 +4,7 @@ import sys
 sys.path.append('..')
 
 import yaml
+import json
 import agent_functions
 from termcolor import colored as coloured
 
@@ -36,3 +37,8 @@ def test_password():
 def test_standard_parse():
   password = agent_functions.verify_config_and_get_password(config)
   assert password == 'my secret password'
+
+def test_exec():
+  password = agent_functions.verify_config_and_get_password(config)
+  response = agent_functions.exec_check(config, password, 'status')
+  assert json.dumps(response) == '[{"cache_item_value": "Response from Kea"}]'

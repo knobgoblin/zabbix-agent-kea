@@ -1,3 +1,7 @@
+import json
+import requests
+from requests.auth import HTTPBasicAuth
+
 def get_config_key(d, keylist, default=None):
   keys = keylist.split(':')
   for key in keys:
@@ -34,11 +38,13 @@ def exec_check(config, password, command_name):
   port = config['kea-server']['port']
   user = config['kea-server']['user']
   url = f'http://{host}:{port}'
+  print(command_name)
+  print(config['commands'])
   if command_name in config['commands']:
     try:
       payload = json.loads(config['commands'][command_name])
     except Exception as e:
-      raise RuntimeError(f'Configuration error - issue with command {command_name}', 1)
+      raise RuntimeError(f'Configuration error - issue with command "{command_name}": {e}')
 
     response = requests.post(url, json=payload, auth=HTTPBasicAuth(user, password), timeout=3)
     if response.status_code == 200:
