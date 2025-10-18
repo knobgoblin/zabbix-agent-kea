@@ -4,6 +4,7 @@ kea-server:
   user: kea-api
   password:
     type: file
+    path: /etc/kea/kea-api-password
 
 commands:
   controller-status: |
