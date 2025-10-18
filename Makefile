@@ -11,6 +11,7 @@ PYVERS := $(shell python3 --version | cut -d ' ' -f2)
 usage:
 	@printf "${YELLOW}make clean                ${GREEN}# Remove all build artefacts.\n"
 	@printf "${YELLOW}make test                 ${GREEN}# Execute tests.\n"
+	@printf "${YELLOW}make sonarscan            ${GREEN}# Check code quality.\n"
 	@printf "${YELLOW}make package              ${GREEN}# Create .deb file.${NC}\n"
 	@printf "\n"
 
@@ -32,5 +33,11 @@ package:
 test:
 	@cd tests && ./run_tests.sh
 
-.PHONY: package test usage init_virtualenv use_virtualenv clean
+sonarscan: init_virtualenv use_virtualenv test
+	@printf "\n"
+	@printf "${BLUE}Scanning code using SonarQube ...${NC}\n"
+	@printf "\n"
+	@/opt/sonar/bin/sonar-scanner -Dsonar.projectKey=zabbix-agent-kea -Dsonar.sources=. -Dsonar.host.url=${SONARQUBE_HOST} -Dsonar.token=${SONARQUBE_TOKEN} -Dsonar.python.coverage.reportPaths=coverage.xml
+
+.PHONY: package test usage init_virtualenv use_virtualenv clean test sonarscan
 .DEFAULT_GOAL := usage

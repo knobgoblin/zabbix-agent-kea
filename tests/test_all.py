@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import pytest
 sys.path.append('..')
 
 import yaml
@@ -44,6 +45,12 @@ def test_standard_parse():
   password = agent_functions.verify_config_and_get_password(config)
   assert password == 'my secret password'
 
+def test_invalid_command():
+  config = open_config('zabbix-agent-kea.conf.test')
+  password = agent_functions.verify_config_and_get_password(config)
+  with pytest.raises(RuntimeError):
+    response = agent_functions.exec_check(config, password, 'bogus')
+
 def test_exec():
   config = open_config('zabbix-agent-kea.conf.test')
   password = agent_functions.verify_config_and_get_password(config)
@@ -54,3 +61,24 @@ def test_defaults1():
   config = open_config('zabbix-agent-kea.conf.defaults.test')
   server_password = agent_functions.verify_config_and_get_password(config)
   assert server_password == 'my password from a file'
+
+def test_nouser():
+  config = open_config('zabbix-agent-kea.conf.nouser.test')
+  with pytest.raises(RuntimeError):
+    server_password = agent_functions.verify_config_and_get_password(config)
+
+def test_nopasswd():
+  config = open_config('zabbix-agent-kea.conf.nopasswords.test')
+  with pytest.raises(RuntimeError):
+    server_password = agent_functions.verify_config_and_get_password(config)
+
+def test_nocommands():
+  config = open_config('zabbix-agent-kea.conf.nocommands.test')
+  with pytest.raises(RuntimeError):
+    server_password = agent_functions.verify_config_and_get_password(config)
+
+def test_borkedcommand():
+  config = open_config('zabbix-agent-kea.conf.borkedcommand.test')
+  server_password = agent_functions.verify_config_and_get_password(config)
+  with pytest.raises(RuntimeError):
+    response = agent_functions.exec_check(config, server_password, 'status')
