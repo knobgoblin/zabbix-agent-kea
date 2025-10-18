@@ -21,9 +21,14 @@ def verify_config_and_get_password(config):
 
   if get_config_key(config, 'kea-server:password:type') is not None:
     if config['kea-server']['password']['type'] == 'file':
-      with open(config['kea-server']['password']['file'], 'r') as fh:
-        pwlines = fh.readlines()
-        password = pwlines[0].strip()
+      if get_config_key(config, 'kea-server:password:path') is None:
+        raise RuntimeError('Kea control agent password specified as file but no file path specified')
+      try:
+        with open(config['kea-server']['password']['path'], 'r') as fh:
+          pwlines = fh.readlines()
+          password = pwlines[0].strip()
+      except FileNotFoundError:
+        raise FileNotFoundError(f'Could not find Kea control agent password file, {config["kea-server"]["password"]["path"]}')
   elif get_config_key(config, 'kea-server:password') is not None:
     password = config['kea-server']['password']
   else:

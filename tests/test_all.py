@@ -72,6 +72,16 @@ def test_nopasswd():
   with pytest.raises(RuntimeError):
     server_password = agent_functions.verify_config_and_get_password(config)
 
+def test_missing_password_file_path():
+  config = open_config('zabbix-agent-kea.conf.nopwfile.test')
+  with pytest.raises(RuntimeError):
+    server_password = agent_functions.verify_config_and_get_password(config)
+
+def test_incorrect_password_file_path():
+  config = open_config('zabbix-agent-kea.conf.wrongpwfile.test')
+  with pytest.raises(FileNotFoundError):
+    server_password = agent_functions.verify_config_and_get_password(config)
+
 def test_nocommands():
   config = open_config('zabbix-agent-kea.conf.nocommands.test')
   with pytest.raises(RuntimeError):
@@ -79,6 +89,12 @@ def test_nocommands():
 
 def test_borkedcommand():
   config = open_config('zabbix-agent-kea.conf.borkedcommand.test')
+  server_password = agent_functions.verify_config_and_get_password(config)
+  with pytest.raises(RuntimeError):
+    response = agent_functions.exec_check(config, server_password, 'status')
+
+def test_server_error():
+  config = open_config('zabbix-agent-kea.conf.error.test')
   server_password = agent_functions.verify_config_and_get_password(config)
   with pytest.raises(RuntimeError):
     response = agent_functions.exec_check(config, server_password, 'status')

@@ -2,7 +2,7 @@ kea-server:
   user: _kea
   password:
     type: file
-    file: password.txt
+    path: password.txt
 
 commands:
   status: |

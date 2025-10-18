@@ -1,0 +1,12 @@
+kea-server:
+  host: 127.0.0.1
+  port: '18002'
+  user: _kea
+  password: my secret password
+
+commands:
+  status: |
+    {
+      "command": "status-get",
+      "arguments": {}
+    }

@@ -1,0 +1,14 @@
+kea-server:
+  host: 127.0.0.1
+  port: '18001'
+  user: _kea
+  password:
+    type: file
+    path: /a/bogus/13249/path
+
+commands:
+  status: |
+    {
+      "command": "status-get",
+      "arguments": {}
+    }
