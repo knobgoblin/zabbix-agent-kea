@@ -28,6 +28,10 @@ if '--config' not in sys.argv and '-c' not in sys.argv:
   env_config = os.environ.get('ZAK_CONFIG')
   if env_config is not None:
     config_file = env_config
+  else:
+    config_file = args.config
+else:
+  config_file = args.config
 
 try:
   with open(config_file, 'r') as fh:
