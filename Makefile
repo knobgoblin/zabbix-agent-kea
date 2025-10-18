@@ -30,7 +30,7 @@ use_virtualenv:
 package:
 	@${CURDIR}/package.sh
 
-test:
+test: init_virtualenv use_virtualenv
 	@cd tests && ./run_tests.sh
 
 sonarscan: init_virtualenv use_virtualenv test
