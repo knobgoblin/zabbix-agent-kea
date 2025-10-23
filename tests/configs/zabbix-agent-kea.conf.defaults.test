@@ -4,6 +4,9 @@ kea-server:
     type: file
     path: password.txt
 
+logging:
+  logfile: ./zabbix-agent-kea.log
+
 commands:
   status: |
     {

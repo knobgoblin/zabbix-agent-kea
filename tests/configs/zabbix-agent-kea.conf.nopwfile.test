@@ -4,7 +4,9 @@ kea-server:
   user: _kea
   password:
     type: file
-    path: /a/bogus/13249/path
+
+logging:
+  logfile: ./zabbix-agent-kea.log
 
 commands:
   status: |

@@ -1,7 +1,11 @@
 kea-server:
   host: 127.0.0.1
-  port: '8000'
+  port: '18001'
   user: _kea
+  password: my secret password
+
+logging:
+  logfile: ./zabbix-agent-kea.log
 
 commands:
   status: |

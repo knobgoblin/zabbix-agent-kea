@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 
+import os
 import sys
+import json
 import yaml
 import argparse
-import os
-import agent_functions
+import logging
+import zabbix_agent_kea_functions
 
-def main():
+def main(provided_args=None):
+
   parser = argparse.ArgumentParser(description="Zabbix agent for kea")
 
   parser.add_argument(
@@ -23,7 +26,11 @@ def main():
     default='no-command',
     help="Meta-command for the agent to run"
   )
-  args = parser.parse_args()
+
+  if provided_args is None:
+    provided_args = sys.argv[1:]
+  
+  args = parser.parse_args(provided_args)
 
   if '--config' not in sys.argv and '-c' not in sys.argv:
     env_config = os.environ.get('ZAK_CONFIG')
@@ -40,10 +47,19 @@ def main():
   except Exception as e:
     raise RuntimeError(f'Could not load configuration file for agent: {e}')
 
-  password = agent_functions.verify_config_and_get_password(config)
-  response = agent_functions.exec_check(config, password, args.command)
+  logging.info(f'Executing diagnostic {args.command!r}')
+  config, password = zabbix_agent_kea_functions.verify_config_and_get_password(config)
+  
+  logging.basicConfig(
+    filename=config['logging']['logfile'],
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s'
+  )
 
-  print(response)
+  logging.info(f'Executing Zabbix Kea agent with command {args.command!r}')
+  response = zabbix_agent_kea_functions.exec_check(config, password, args.command)
+
+  print(json.dumps(response))
 
 if __name__ == "__main__":
   main()

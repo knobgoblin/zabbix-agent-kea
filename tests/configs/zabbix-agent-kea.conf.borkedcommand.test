@@ -4,5 +4,8 @@ kea-server:
   user: _kea
   password: my secret password
 
+logging:
+  logfile: ./zabbix-agent-kea.log
+
 commands:
   status: borked

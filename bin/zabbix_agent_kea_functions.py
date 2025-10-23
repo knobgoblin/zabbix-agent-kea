@@ -36,8 +36,8 @@ def verify_config_and_get_password(config):
 
   if get_config_key(config, 'commands') is None:
     raise RuntimeError('Cannot invoke this agent without defined commands')
-  
-  return password
+
+  return config, password
 
 def exec_check(config, password, command_name):
   host = config['kea-server']['host']

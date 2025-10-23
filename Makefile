@@ -17,6 +17,11 @@ usage:
 
 export PYTHONPATH := ${CURDIR}/venv/lib/python${PYVERS}/site-packages
 export PATH := ${CURDIR}/venv/bin:${PATH}
+ifeq ($(UNAME),Darwin)
+export SONARSCAN_PATH=/opt/homebrew/bin
+else
+export SONARSCAN_PATH=/opt/sonar/bin
+endif
 
 clean:
 	@${CURDIR}/clean.sh
@@ -34,10 +39,12 @@ test: init_virtualenv use_virtualenv
 	@cd tests && ./run_tests.sh
 
 sonarscan: init_virtualenv use_virtualenv test
+	@[ -n $${SONARQUBE_TOKEN} ] || (echo "Need a vault for SONARQUBE_TOKEN" && exit 1)
+	@[ -n $${SONARQUBE_HOST} ] || (echo "Need a vault for SONARQUBE_HOST" && exit 1)
 	@printf "\n"
 	@printf "${BLUE}Scanning code using SonarQube ...${NC}\n"
 	@printf "\n"
-	@/opt/sonar/bin/sonar-scanner -Dsonar.projectKey=zabbix-agent-kea -Dsonar.sources=. -Dsonar.host.url=${SONARQUBE_HOST} -Dsonar.token=${SONARQUBE_TOKEN} -Dsonar.python.coverage.reportPaths=coverage.xml
+	@${SONARSCAN_PATH}/sonar-scanner -Dsonar.projectKey=zabbix-agent-kea -Dsonar.sources=bin -Dsonar.host.url=${SONARQUBE_HOST} -Dsonar.token=${SONARQUBE_TOKEN} -Dsonar.python.coverage.reportPaths=coverage.xml
 
 .PHONY: package test usage init_virtualenv use_virtualenv clean test sonarscan
 .DEFAULT_GOAL := usage

@@ -1,0 +1,5 @@
+kea-server:
+  password: irrelevant
+
+logging:
+  logfile: ./zabbix-agent-kea.log
