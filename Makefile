@@ -33,7 +33,7 @@ use_virtualenv:
 	@source venv/bin/activate
 
 package:
-	@${CURDIR}/package.sh
+	@[ -n $${PACKAGE_VERSION} ] && ${CURDIR}/package.sh $${PACKAGE_VERSION} || ${CURDIR}/package.sh
 
 test: init_virtualenv use_virtualenv
 	@cd tests && ./run_tests.sh

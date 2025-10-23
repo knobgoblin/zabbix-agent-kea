@@ -211,3 +211,5 @@ coverage.xml
 
 .DS_Store
 .scannerwork
+*.deb
+packaging/DEBIAN/usr
